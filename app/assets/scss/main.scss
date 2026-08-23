@@ -1,0 +1,15 @@
+@use 'reset';
+
+body {
+  font-family: $font-family-main;
+  font-size: 16px;
+  line-height: 1.5;
+  color: $text-main;
+  background-color: $bg-main;
+}
+
+.container {
+  width: min(100% - 40px, $desktop);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
