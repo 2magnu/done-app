@@ -6,3 +6,20 @@ $tablet: 712px;
 $desktop: 1280px;
 $wide: 1580px;
 $ultrawide: 1920px;
+
+// Base Colors
+$white: #ffffff;
+$black: #000000;
+$ghost-white: #f7f7fa;
+$dark-stone: #1c1917;
+$gray-light: #e2e2ea;
+
+// Alpha
+$black-a08: rgba(0, 0, 0, 0.08);
+$black-a18: rgba(0, 0, 0, 0.18);
+$gray-a-40: rgba(13, 13, 18, 0.48);
+
+$bg-main: $ghost-white;
+$text-main: $dark-stone;
+$stroke: $gray-light;
+$modal-overlay: $gray-a-40;

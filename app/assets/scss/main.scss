@@ -1,11 +1,16 @@
 @use 'reset';
 
 body {
+  position: relative;
   font-family: $font-family-main;
   font-size: 16px;
   line-height: 1.5;
   color: $text-main;
   background-color: $bg-main;
+
+  &.no-scroll {
+    overflow: hidden;
+  }
 }
 
 .container {

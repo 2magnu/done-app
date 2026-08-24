@@ -1,11 +1,23 @@
 <script setup lang="ts">
 const notesStore = useNotesStore()
+
+const showDeleteModal = ref(false)
+
+function toggleModal() {
+  showDeleteModal.value = !showDeleteModal.value
+}
+
+function confirmDelete(id: string) {
+  notesStore.deleteNote(id)
+
+  toggleModal()
+}
 </script>
 
 <template>
   <div class="notes-app">
     <template v-if="notesStore.hasNotes">
-      <input type="text" placeholder="Найти заметку">
+      <input type="text" placeholder="Найти заметку" />
 
       <ul>
         <li v-for="note in notesStore.notes" :key="note.id">
@@ -19,9 +31,14 @@ const notesStore = useNotesStore()
 
           <nuxt-link :to="`/notes/${note.id}`">Редактировать</nuxt-link>
 
-          <button type="button" @click="notesStore.deleteNote(note.id)">Удалить</button>
+          <button type="button" @click="confirmDelete(note.id)">Удалить</button>
         </li>
       </ul>
+
+      <BaseModal v-if="showDeleteModal" @close="toggleModal">
+        Вы уверены, что хотите удалить заметку? Это действие нельзя будет отменить. Удалить
+        <button @click="toggleModal">Отменить</button>
+      </BaseModal>
     </template>
 
     <template v-else>
