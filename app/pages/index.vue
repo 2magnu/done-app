@@ -10,11 +10,16 @@ const notesStore = useNotesStore()
       <ul>
         <li v-for="note in notesStore.notes" :key="note.id">
           {{ note.title }}
+
           <ul>
             <li v-for="todo in note.todos" :key="todo.id">
               {{ todo.text }}
             </li>
           </ul>
+
+          <nuxt-link :to="`/notes/${note.id}`">Редактировать</nuxt-link>
+
+          <button type="button" @click="notesStore.deleteNote(note.id)">Удалить</button>
         </li>
       </ul>
     </template>

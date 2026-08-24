@@ -1,4 +1,9 @@
 <script setup lang="ts">
+const notesStore = useNotesStore()
+
+onMounted(() => {
+  notesStore.loadNotes()
+})
 </script>
 
 <template>

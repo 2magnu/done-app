@@ -17,20 +17,37 @@ export const useNotesStore = defineStore('notes', {
   },
 
   actions: {
+    loadNotes() {
+      const localNotes = localStorage.getItem('notes')
+
+      this.notes = localNotes ? JSON.parse(localNotes).notes : []
+    },
+
+    saveToStorage() {
+      const data = {
+        version: 1,
+        notes: this.notes,
+      }
+
+      localStorage.setItem('notes', JSON.stringify(data))
+    },
+
     updateNote(note: Note) {
       const index = this.notes.findIndex((item) => item.id === note.id)
 
       if (index === -1) {
         this.notes.push(note)
-
-        return
+      } else {
+        this.notes[index] = note
       }
 
-      this.notes[index] = note
+      this.saveToStorage()
     },
 
     deleteNote(id: string) {
       this.notes = this.notes.filter((note) => note.id !== id)
+
+      this.saveToStorage()
     },
   },
 })

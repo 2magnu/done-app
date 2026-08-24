@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { toRaw } from 'vue'
 import type { Todo, Note } from '~/types/note'
 const notesStore = useNotesStore()
 const route = useRoute()
@@ -22,7 +23,7 @@ if (route.params.id !== 'new') {
     })
   }
 
-  draft.value = structuredClone(note.value)
+  draft.value = structuredClone(toRaw(note.value))
 }
 
 // const history = ref([]) todo: добавить логику
