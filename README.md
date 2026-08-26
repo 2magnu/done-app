@@ -1,75 +1,67 @@
-# Nuxt Minimal Starter
+# 👾 Done App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Создавай именованные списки под любую задачу.
 
-## Setup
+## 🛠 Стек
 
-Make sure to install dependencies:
+* Vue 3
+* Nuxt 4
+* TypeScript
+* Pinia
+* SCSS
+* VueUse
+* Vitest
+
+## 🚀 Установка
+
+Требуется Node.js 22+.
+
+### Установка зависимостей
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+### Запуск в режиме разработки
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
+
+Приложение будет доступно по адресу:
+
+`http://localhost:3000`
 
 ## Production
 
-Build the application for production:
+### Production-сборка
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+### Запуск production-сервера
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+node .output/server/index.mjs
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 🧪 Тестирование
+
+```bash
+npm run test
+```
+
+## 🐳 Docker
+
+Проект содержит `Dockerfile` и `docker-compose.yaml` для запуска приложения в Docker.
+
+### Запуск
+
+```bash
+docker compose up --build
+```
+
+После запуска приложение будет доступно по адресу:
+
+`http://localhost:3000`
