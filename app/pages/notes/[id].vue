@@ -4,6 +4,15 @@ import type { Todo } from '~/types/note'
 import type { HistoryAction } from '~/types/historyAction.ts'
 const route = useRoute()
 const notesStore = useNotesStore()
+const { handleKeydown } = useNoteEditor()
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown)
+})
 
 const { draft, applyAction, saveHistoryAction } = useNoteEditor()
 

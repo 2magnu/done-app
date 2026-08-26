@@ -102,6 +102,31 @@ function saveHistoryAction(action: HistoryAction) {
   console.log('last action:', history.value[history.value.length - 1])
 }
 
+function handleKeydown(event: KeyboardEvent) {
+  const modifier = event.ctrlKey || event.metaKey
+
+  const isUndo = modifier && !event.shiftKey && event.key.toLowerCase() === 'z'
+  const isRedo = modifier && event.shiftKey && event.key.toLowerCase() === 'z'
+
+  if (!isUndo && !isRedo) {
+    return
+  }
+
+  const target = event.target as HTMLInputElement
+
+  if (target.tagName === 'INPUT') {
+    return
+  }
+
+  event.preventDefault()
+
+  if (event.shiftKey) {
+    redo()
+  } else {
+    undo()
+  }
+}
+
 function undo() {
   if (historyIndex.value < 0) {
     return
@@ -173,6 +198,7 @@ export function useNoteEditor() {
     draft,
     applyAction,
     saveHistoryAction,
+    handleKeydown,
     undo,
     redo,
     canUndo,
