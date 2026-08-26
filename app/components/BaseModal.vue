@@ -35,7 +35,7 @@ onUnmounted(() => {
 
 <template>
   <Teleport to="body">
-    <div class="base-modal">
+    <div class="base-modal" role="dialog" aria-modal="true">
       <div class="base-modal__overlay" @click="$emit('close')" />
 
       <div class="base-modal__content">

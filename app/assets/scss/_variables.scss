@@ -53,17 +53,17 @@ $btn-bg: $white;
 $btn-border: $gray-border;
 $btn-color: $gray-icon;
 
-$btn-hover-bg: $gray-button;
-$btn-hover-border: $gray-button;
+$btn-hover-bg: $gray-border;
+$btn-hover-border: $gray-border;
 $btn-hover-color: $gray-icon;
 
 $btn-active-bg: $white;
-$btn-active-border: $gray-button;
+$btn-active-border: $gray-border;
 $btn-active-color: $gray-icon;
 
-$btn-disable-bg: $gray-button;
-$btn-disable-border: $gray-button;
-$btn-disable-color: $gray-text;
+$btn-disabled-bg: $white;
+$btn-disabled-border: $gray-border;
+$btn-disabled-color: $gray-text;
 
 $btn-primary-bg: linear-gradient(135deg, #7C3AED 0%, #4338CA 100%);
 $btn-primary-color: $white;

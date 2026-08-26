@@ -67,6 +67,14 @@ const buttonComponent = computed(() => {
     color: $btn-hover-color;
   }
 
+  &.disabled, &:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    background: $btn-disabled-bg;
+    border: 1px solid $btn-disabled-border;
+    color: $btn-disabled-color;
+  }
+
   &:active,
   &:focus {
     background: $btn-active-bg;
@@ -81,14 +89,14 @@ const buttonComponent = computed(() => {
   background: $btn-primary-bg;
   box-shadow: $btn-primary-shadow;
 
-  &:hover {
+  &:not([disabled]):hover {
     color: $btn-primary-hover-color;
     border: none;
     background: $btn-primary-hover-bg;
     box-shadow: $btn-primary-hover-shadow;
   }
 
-  &:disabled {
+  &.disabled, &:disabled {
     opacity: 0.4;
   }
 }
@@ -107,7 +115,7 @@ const buttonComponent = computed(() => {
   display: block;
   width: 16px;
   height: 16px;
-  color: $gray-icon;
+  color: inherit;
 
   &.base-button--compact {
     width: 14px;
