@@ -2,12 +2,26 @@
 import { pluralizeNotes } from '~/utils/pluralizeNotes.ts'
 
 const notesStore = useNotesStore()
-
-const { undo, redo, canUndo, canRedo, saveNote, cancelEdit } = useNoteEditor()
+const { undo, redo, canUndo, canRedo, saveNote, deleteNote, cancelEdit } = useNoteEditor()
 
 defineProps<{
   isNotePage: boolean
 }>()
+
+const showDeleteModal = ref(false)
+const showCancelModal = ref(false)
+
+function confirmCancel() {
+  showCancelModal.value = false
+
+  cancelEdit()
+}
+
+function confirmDelete() {
+  showDeleteModal.value = false
+
+  deleteNote()
+}
 </script>
 
 <template>
@@ -15,7 +29,12 @@ defineProps<{
     <div class="app-header__container container">
       <template v-if="isNotePage">
         <div class="app-header__back">
-          <BaseButton compact icon-name="caret-left" class="app-header__back-button" @click="cancelEdit" />
+          <BaseButton
+            compact
+            icon-name="caret-left"
+            class="app-header__back-button"
+            @click="cancelEdit"
+          />
           <h1 class="app-header__back-title">Редактирование заметки</h1>
         </div>
 
@@ -27,6 +46,7 @@ defineProps<{
             class="app-header__button"
             @click="undo"
           />
+
           <BaseButton
             icon-name="redo"
             compact
@@ -34,11 +54,19 @@ defineProps<{
             class="app-header__button"
             @click="redo"
           />
-          <BaseButton icon-name="delete" compact class="app-header__button" />
+
+          <BaseButton
+            icon-name="delete"
+            compact
+            class="app-header__button"
+            @click="showDeleteModal = true"
+          />
         </div>
 
         <div class="app-header__actions">
-          <BaseButton secondary class="app-header__btn" @click="cancelEdit">Отмена</BaseButton>
+          <BaseButton secondary class="app-header__btn" @click="showCancelModal = true"
+            >Отмена</BaseButton
+          >
           <BaseButton primary class="app-header__btn" @click="saveNote">Сохранить</BaseButton>
         </div>
       </template>
@@ -54,6 +82,23 @@ defineProps<{
       </template>
     </div>
   </header>
+  <BaseModal
+    v-if="showCancelModal"
+    title="Отменить редактирование?"
+    message="Все несохраненные изменения будут потеряны."
+    confirm-text="Отменить редактирование"
+    @confirm="confirmCancel"
+    @close="showCancelModal = false"
+  />
+
+  <BaseModal
+    v-if="showDeleteModal"
+    title="Удалить заметку?"
+    message="Заметка будет удалена без возможности восстановления."
+    confirm-text="Удалить"
+    @confirm="confirmDelete"
+    @close="showDeleteModal = false"
+  />
 </template>
 
 <style scoped lang="scss">

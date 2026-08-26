@@ -8,7 +8,6 @@ defineProps<{
 defineEmits<{
   close: []
   confirm: []
-  cancel: []
 }>()
 
 onMounted(() => {

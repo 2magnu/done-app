@@ -45,7 +45,7 @@ const completeAllTasks = computed(() => {
         Редактировать
       </BaseButton>
 
-      <BaseButton compact icon-name="delete" @click="showDeleteModal === true">
+      <BaseButton compact icon-name="delete" @click="showDeleteModal = true">
         Удалить
       </BaseButton>
     </div>

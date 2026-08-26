@@ -87,6 +87,13 @@ export function useNoteEditor() {
     router.push('/')
   }
 
+  function deleteNote() {
+    notesStore.deleteNote(draft.value.id)
+
+    resetEditor()
+    router.push('/')
+  }
+
   function cancelEdit() {
     resetEditor()
     router.push('/')
@@ -101,6 +108,7 @@ export function useNoteEditor() {
     saveTextHistory,
     saveHistory,
     saveNote,
+    deleteNote,
     cancelEdit,
   }
 }
