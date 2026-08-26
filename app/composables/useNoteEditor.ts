@@ -2,14 +2,17 @@ import { toRaw } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 import type { Note } from '~/types/note'
 
-const draft = ref<Note>({
-  id: crypto.randomUUID(),
-  title: '',
-  todos: [],
-})
-
+const draft = ref<Note>(createEmptyDraft())
 const history = ref<Note[]>([])
 const historyIndex = ref(-1)
+
+function createEmptyDraft(): Note {
+  return {
+    id: crypto.randomUUID(),
+    title: '',
+    todos: [],
+  }
+}
 
 function saveHistory() {
   const snapshot = structuredClone(toRaw(draft.value))
@@ -42,7 +45,7 @@ function undo() {
     return
   }
 
-  draft.value = structuredClone(toRaw(snapshot))
+  draft.value = structuredClone(snapshot)
 }
 
 function redo() {
@@ -71,12 +74,21 @@ export function useNoteEditor() {
   const notesStore = useNotesStore()
   const router = useRouter()
 
+  function resetEditor() {
+    draft.value = createEmptyDraft()
+    history.value = []
+    historyIndex.value = -1
+  }
+
   function saveNote() {
     notesStore.updateNote(draft.value)
+
+    resetEditor()
     router.push('/')
   }
 
   function cancelEdit() {
+    resetEditor()
     router.push('/')
   }
 

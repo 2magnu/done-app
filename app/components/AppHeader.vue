@@ -15,7 +15,7 @@ defineProps<{
     <div class="app-header__container container">
       <template v-if="isNotePage">
         <div class="app-header__back">
-          <BaseButton to="/" compact icon-name="caret-left" class="app-header__back-button" />
+          <BaseButton compact icon-name="caret-left" class="app-header__back-button" @click="cancelEdit" />
           <h1 class="app-header__back-title">Редактирование заметки</h1>
         </div>
 
