@@ -5,7 +5,7 @@ defineProps<{
   confirmText: string
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   close: []
   confirm: []
 }>()
@@ -16,6 +16,20 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.body.classList.remove('no-scroll')
+})
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    emit('close')
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown)
 })
 </script>
 
