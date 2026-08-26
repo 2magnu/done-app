@@ -5,11 +5,13 @@ const props = defineProps<{ todo: Todo }>()
 
 const emit = defineEmits<{
   'update-text': [id: string, text: string]
+  'start-text-edit': [id: string]
+  'finish-text-edit': [id: string]
   delete: [id: string]
   toggle: [id: string, completed: boolean]
 }>()
 
-function onInput(event: Event) {
+function updateText(event: Event) {
   const target = event.target as HTMLInputElement
 
   emit('update-text', props.todo.id, target.value)
@@ -44,7 +46,10 @@ function toggleTodo(event: Event) {
       placeholder="Введите текст задачи..."
       :value="todo.text"
       class="todo-item__input"
-      @input="onInput"
+      @input="updateText"
+      @focus="emit('start-text-edit', todo.id)"
+      @blur="emit('finish-text-edit', todo.id)"
+
     />
 
     <BaseButton compact icon-name="delete" class="todo-item__delete" @click="deleteTodo" />

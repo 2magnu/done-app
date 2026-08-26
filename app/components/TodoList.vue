@@ -8,6 +8,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update-text': [id: string, text: string]
+  'start-text-edit': [id: string]
+  'finish-text-edit': [id: string]
   delete: [id: string]
   toggle: [id: string, completed: boolean]
 }>()
@@ -22,6 +24,8 @@ const emit = defineEmits<{
       @update-text="(id, text) => emit('update-text', id, text)"
       @toggle="(id, completed) => emit('toggle', id, completed)"
       @delete="(id) => emit('delete', id)"
+      @start-text-edit="id => emit('start-text-edit', id)"
+      @finish-text-edit="id => emit('finish-text-edit', id)"
     />
   </ul>
 </template>

@@ -33,7 +33,7 @@ function confirmDelete() {
             compact
             icon-name="caret-left"
             class="app-header__back-button"
-            @click="cancelEdit"
+            @click="showCancelModal = true"
           />
           <h1 class="app-header__back-title">Редактирование заметки</h1>
         </div>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { toRaw } from 'vue'
 import type { Todo } from '~/types/note'
+import type { HistoryAction } from '~/types/historyAction.ts'
 const route = useRoute()
 const notesStore = useNotesStore()
 
-const { draft, saveHistory, saveTextHistory } = useNoteEditor()
+const { draft, applyAction, saveHistoryAction } = useNoteEditor()
 
 if (route.params.id !== 'new') {
   const note = computed(() => {
@@ -21,7 +22,25 @@ if (route.params.id !== 'new') {
   draft.value = structuredClone(toRaw(note.value))
 }
 
-saveHistory()
+let previousTitle = ''
+
+function startTitleEdit() {
+  previousTitle = draft.value.title
+}
+
+function finishTitleEdit() {
+  if (previousTitle === draft.value.title) {
+    return
+  }
+
+  const action: HistoryAction = {
+    type: 'update-title',
+    previous: previousTitle,
+    next: draft.value.title,
+  }
+
+  saveHistoryAction(action)
+}
 
 const addTodo = () => {
   const todo: Todo = {
@@ -30,18 +49,73 @@ const addTodo = () => {
     completed: false,
   }
 
-  draft.value.todos.push(todo)
-  saveHistory()
+  const action: HistoryAction = {
+    type: 'add-todo',
+    todo,
+    index: draft.value.todos.length,
+  }
+
+  applyAction(action)
+  saveHistoryAction(action)
 }
 
 const deleteTodo = (id: string) => {
-  draft.value.todos = draft.value.todos.filter((todo) => todo.id !== id)
+  const index = draft.value.todos.findIndex((todo) => todo.id === id)
+  const todo = draft.value.todos[index]
 
-  saveHistory()
+  if (index === -1 || !todo) {
+    return
+  }
+
+  const action: HistoryAction = {
+    type: 'delete-todo',
+    todo: structuredClone(toRaw(todo)),
+    index,
+  }
+
+  applyAction(action)
+  saveHistoryAction(action)
 }
 
 function findTodo(id: string) {
   return draft.value.todos.find((todo) => todo.id === id)
+}
+
+const previousTodoTexts = new Map<string, string>()
+
+function startTodoTextEdit(id: string) {
+  const todo = findTodo(id)
+
+  if (!todo) {
+    return
+  }
+
+  previousTodoTexts.set(id, todo.text)
+}
+
+function finishTodoTextEdit(id: string) {
+  const todo = findTodo(id)
+
+  if (!todo) {
+    return
+  }
+
+  const previous = previousTodoTexts.get(id)
+
+  if (previous === undefined || previous === todo.text) {
+    return
+  }
+
+  const action: HistoryAction = {
+    type: 'update-todo-text',
+    todoId: id,
+    previous,
+    next: todo.text,
+  }
+
+  saveHistoryAction(action)
+
+  previousTodoTexts.delete(id)
 }
 
 function updateTodoText(id: string, text: string) {
@@ -52,15 +126,24 @@ function updateTodoText(id: string, text: string) {
   }
 
   todo.text = text
-  saveTextHistory()
 }
 
 function toggleTodo(id: string, completed: boolean) {
   const todo = findTodo(id)
 
-  if (todo) {
-    todo.completed = completed
+  if (!todo) {
+    return
   }
+
+  const action: HistoryAction = {
+    type: 'toggle-todo',
+    todoId: id,
+    previous: todo.completed,
+    next: completed,
+  }
+
+  applyAction(action)
+  saveHistoryAction(action)
 }
 
 const completedTodos = computed(() => {
@@ -83,7 +166,8 @@ const progress = computed(() => {
           type="text"
           placeholder="Заголовок"
           class="edit-note__title-input"
-          @input="saveTextHistory"
+          @focus="startTitleEdit"
+          @blur="finishTitleEdit"
         />
       </label>
 
@@ -108,6 +192,8 @@ const progress = computed(() => {
         @update-text="updateTodoText"
         @toggle="toggleTodo"
         @delete="deleteTodo"
+        @start-text-edit="startTodoTextEdit"
+        @finish-text-edit="finishTodoTextEdit"
       />
 
       <BaseButton compact icon-name="add" @click="addTodo">Добавить задачу</BaseButton>

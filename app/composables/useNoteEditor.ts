@@ -1,9 +1,8 @@
-import { toRaw } from 'vue'
-import { useDebounceFn } from '@vueuse/core'
 import type { Note } from '~/types/note'
+import type { HistoryAction } from '~/types/historyAction'
 
 const draft = ref<Note>(createEmptyDraft())
-const history = ref<Note[]>([])
+const history = shallowRef<HistoryAction[]>([])
 const historyIndex = ref(-1)
 
 function createEmptyDraft(): Note {
@@ -14,38 +13,109 @@ function createEmptyDraft(): Note {
   }
 }
 
-function saveHistory() {
-  const snapshot = structuredClone(toRaw(draft.value))
+function applyAction(action: HistoryAction) {
+  switch (action.type) {
+    case 'add-todo':
+      draft.value.todos.splice(action.index, 0, action.todo)
+      break
 
-  history.value = history.value.slice(0, historyIndex.value + 1)
+    case 'delete-todo':
+      draft.value.todos.splice(action.index, 1)
+      break
 
-  history.value.push(toRaw(snapshot))
+    case 'update-todo-text': {
+      const todo = draft.value.todos.find((todo) => todo.id === action.todoId)
 
-  if (history.value.length > 50) {
-    history.value.shift()
+      if (todo) {
+        todo.text = action.next
+      }
+
+      break
+    }
+
+    case 'toggle-todo': {
+      const todo = draft.value.todos.find((todo) => todo.id === action.todoId)
+
+      if (todo) {
+        todo.completed = action.next
+      }
+
+      break
+    }
+
+    case 'update-title':
+      draft.value.title = action.next
+      break
   }
-
-  historyIndex.value = history.value.length - 1
 }
 
-const saveTextHistory = useDebounceFn(() => {
-  saveHistory()
-}, 500)
+function applyInverseAction(action: HistoryAction) {
+  switch (action.type) {
+    case 'add-todo':
+      draft.value.todos.splice(action.index, 1)
+      break
+
+    case 'delete-todo':
+      draft.value.todos.splice(action.index, 0, structuredClone(action.todo))
+      break
+
+    case 'update-todo-text': {
+      const todo = draft.value.todos.find((todo) => todo.id === action.todoId)
+
+      if (todo) {
+        todo.text = action.previous
+      }
+
+      break
+    }
+
+    case 'toggle-todo': {
+      const todo = draft.value.todos.find((todo) => todo.id === action.todoId)
+
+      if (todo) {
+        todo.completed = action.previous
+      }
+
+      break
+    }
+
+    case 'update-title':
+      draft.value.title = action.previous
+      break
+  }
+}
+
+function saveHistoryAction(action: HistoryAction) {
+  const newHistory = history.value.slice(0, historyIndex.value + 1)
+
+  newHistory.push(structuredClone(action))
+
+  if (newHistory.length > 50) {
+    newHistory.shift()
+  }
+
+  history.value = newHistory
+  historyIndex.value = newHistory.length - 1
+
+  // Для просмотра истории изменений
+  console.log('history:', history.value)
+  console.log('last action:', history.value[history.value.length - 1])
+}
 
 function undo() {
-  if (historyIndex.value <= 0) {
+  if (historyIndex.value < 0) {
     return
   }
+
+  const action = history.value[historyIndex.value]
+
+  if (!action) {
+    return
+  }
+
+  applyInverseAction(action)
 
   historyIndex.value--
-
-  const snapshot = history.value[historyIndex.value]
-
-  if (!snapshot) {
-    return
-  }
-
-  draft.value = structuredClone(snapshot)
 }
 
 function redo() {
@@ -55,16 +125,16 @@ function redo() {
 
   historyIndex.value++
 
-  const snapshot = history.value[historyIndex.value]
+  const action = history.value[historyIndex.value]
 
-  if (!snapshot) {
+  if (!action) {
     return
   }
 
-  draft.value = structuredClone(toRaw(snapshot))
+  applyAction(action)
 }
 
-const canUndo = computed(() => historyIndex.value > 0)
+const canUndo = computed(() => historyIndex.value >= 0)
 
 const canRedo = computed(() => {
   return historyIndex.value < history.value.length - 1
@@ -101,12 +171,12 @@ export function useNoteEditor() {
 
   return {
     draft,
+    applyAction,
+    saveHistoryAction,
     undo,
     redo,
     canUndo,
     canRedo,
-    saveTextHistory,
-    saveHistory,
     saveNote,
     deleteNote,
     cancelEdit,
