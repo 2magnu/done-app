@@ -12,14 +12,75 @@ $white: #ffffff;
 $black: #000000;
 $ghost-white: #f7f7fa;
 $dark-stone: #1c1917;
-$gray-light: #e2e2ea;
+$gray: #9b9bab;
+$gray-text: #C9C9D4;
+$gray-dark: #d0d0dc;
+$gray-border: #e2e2ea;
+$gray-icon: #6B6B7B;
+$gray-button: #f0f0f5;
+$violet: #7C3AED;
+$lilac: #C4B5FD;
+$green: #059669;
+$green-border: #A7F3D0;
+$green-bg: #ECFDF5;
+$red: #EF444;
+$orange: #D97706;
+
+$success: $green;
+$error: $red;
+$warning: $orange;
 
 // Alpha
+$black-a04: rgba(0, 0, 0, 0.04);
 $black-a08: rgba(0, 0, 0, 0.08);
 $black-a18: rgba(0, 0, 0, 0.18);
-$gray-a-40: rgba(13, 13, 18, 0.48);
+$gray-a-48: rgba(13, 13, 18, 0.48);
+
+// Gradients
+$empty-gradient: linear-gradient(135deg, rgb(237, 233, 254) 0%, rgb(224, 231, 255) 100%);
 
 $bg-main: $ghost-white;
 $text-main: $dark-stone;
-$stroke: $gray-light;
-$modal-overlay: $gray-a-40;
+$text-caption: $gray;
+$text-placeholder: $gray-text;
+$stroke: $gray-border;
+$modal-overlay: $gray-a-48;
+
+$header-height: 60px;
+
+// Buttons
+$btn-bg: $white;
+$btn-border: $gray-border;
+$btn-color: $gray-icon;
+
+$btn-hover-bg: $gray-button;
+$btn-hover-border: $gray-button;
+$btn-hover-color: $gray-icon;
+
+$btn-active-bg: $white;
+$btn-active-border: $gray-button;
+$btn-active-color: $gray-icon;
+
+$btn-disable-bg: $gray-button;
+$btn-disable-border: $gray-button;
+$btn-disable-color: $gray-text;
+
+$btn-primary-bg: linear-gradient(135deg, #7C3AED 0%, #4338CA 100%);
+$btn-primary-color: $white;
+$btn-primary-shadow: 0 2px 12px rgba(124, 58, 237, 0.22);
+
+$btn-primary-hover-bg: linear-gradient(135deg, #6D28D9 0%, #3730A3 100%);
+$btn-primary-hover-color: $white;
+$btn-primary-hover-shadow: 0 4px 14px rgba(124,58,237,0.32);
+
+$btn-primary-active-bg: linear-gradient(135deg, #5B21B6 0%, #312E81 100%);
+$btn-primary-active-color: $white;
+$btn-primary-active-shadow: 0 1px 4px rgba(124,58,237,0.2);
+
+// Roundings
+$rounded-sm: 4px;
+$rounded-lg: 8px;
+$rounded-xl: 12px;
+$rounded-2xl: 16px;
+$rounded-3xl: 24px;
+$rounded-circle: 50%;

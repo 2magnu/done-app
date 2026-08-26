@@ -4,13 +4,19 @@ const notesStore = useNotesStore()
 onMounted(() => {
   notesStore.loadNotes()
 })
+
+const route = useRoute()
+
+const isNotePage = computed(() => {
+  return route.name === 'notes-id'
+})
 </script>
 
 <template>
   <div class="app">
-    <AppHeader />
+    <AppHeader :is-note-page="isNotePage" />
 
-    <main>
+    <main class="main" :class="{ 'note-page': isNotePage }">
       <div class="container">
         <NuxtPage />
       </div>
@@ -19,7 +25,8 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.app {
-  position: relative;
+
+.main {
+  padding-block: 40px;
 }
 </style>

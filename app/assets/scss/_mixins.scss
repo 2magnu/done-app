@@ -1,0 +1,49 @@
+@use './variables' as *;
+
+@mixin centeringAbsolute($x, $y) {
+  position: absolute;
+
+  @if $x and $y {
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  } @else if $x {
+    left: 50%;
+    transform: translateX(-50%);
+  } @else if $y {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@mixin flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition($prop: all, $time: 0.2s, $duration: ease-out) {
+  transition: $prop $time $duration;
+}
+
+@mixin Text-Caption-16() {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  color: $text-caption;
+}
+
+@mixin Text-Caption-20() {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: $text-caption;
+}
+
+@mixin Text-Label() {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14px;
+  color: $text-main;
+  text-transform: uppercase;
+}
