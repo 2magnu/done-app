@@ -1,11 +1,11 @@
-import type { Note } from '~/types/note'
+import type { NoteDraft } from '~/types/note'
 import type { HistoryAction } from '~/types/historyAction'
 
-const draft = ref<Note>(createEmptyDraft())
+const draft = ref<NoteDraft>(createEmptyDraft())
 const history = shallowRef<HistoryAction[]>([])
 const historyIndex = ref(-1)
 
-function createEmptyDraft(): Note {
+function createEmptyDraft(): NoteDraft {
   return {
     id: crypto.randomUUID(),
     title: '',

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Note } from '~/types/note'
+import type { Note, NoteDraft } from '~/types/note'
 
 export const useNotesStore = defineStore('notes', {
   state: () => ({
@@ -32,13 +32,19 @@ export const useNotesStore = defineStore('notes', {
       localStorage.setItem('notes', JSON.stringify(data))
     },
 
-    updateNote(note: Note) {
+    updateNote(note: NoteDraft) {
       const index = this.notes.findIndex((item) => item.id === note.id)
 
       if (index === -1) {
-        this.notes.push(note)
+        this.notes.push({
+          ...note,
+          updatedAt: new Date().toISOString(),
+        })
       } else {
-        this.notes[index] = note
+        this.notes[index] = {
+          ...note,
+          updatedAt: new Date().toISOString(),
+        }
       }
 
       this.saveToStorage()

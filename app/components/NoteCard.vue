@@ -29,7 +29,9 @@ const completeAllTasks = computed(() => {
         <span v-if="completeAllTasks" class="note-card__badge">Done</span>
       </div>
 
-      <span class="note-card__caption">{{ new Date().toLocaleDateString() }}</span>
+      <span class="note-card__caption">{{
+        new Date(props.note.updatedAt).toLocaleDateString()
+      }}</span>
     </div>
 
     <ul v-if="props.note.todos.length > 0" class="note-card__list">
