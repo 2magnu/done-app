@@ -30,7 +30,7 @@ const filteredNotes = computed(() => {
           />
         </div>
 
-        <BaseButton primary to="/notes/new">Создать заметку</BaseButton>
+        <BaseButton primary to="/notes/new" class="toolbar__button">Создать заметку</BaseButton>
       </div>
 
       <ul class="notes-list">
@@ -79,6 +79,7 @@ const filteredNotes = computed(() => {
   @include Text-Caption-20();
 
   color: $text-caption;
+  text-align: center;
   margin-bottom: 24px;
 }
 
@@ -101,11 +102,20 @@ const filteredNotes = computed(() => {
 .toolbar {
   display: flex;
   gap: 12px;
+
+  @include mob-tab-only {
+    gap: 4px;
+    flex-wrap: wrap;
+  }
 }
 
 .search {
   flex: 1;
   position: relative;
+
+  @include mob-tab-only {
+    width: 100%;
+  }
 }
 
 .search__icon {
@@ -137,9 +147,27 @@ const filteredNotes = computed(() => {
   }
 }
 
+.toolbar__button {
+  @include mob-tab-only {
+    width: 100%;
+  }
+}
+
 .notes-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+  width: 100%;
+
+  @include tab {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include desk {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include desk-lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 </style>

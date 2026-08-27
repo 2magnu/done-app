@@ -69,6 +69,13 @@ function confirmDelete() {
           >
           <BaseButton primary class="app-header__btn" @click="saveNote">Сохранить</BaseButton>
         </div>
+
+        <Teleport to="#mobile-actions" class="app-header__history">
+          <BaseButton secondary class="app-header__btn" @click="showCancelModal = true"
+            >Отмена</BaseButton
+          >
+          <BaseButton primary class="app-header__btn" @click="saveNote">Сохранить</BaseButton>
+        </Teleport>
       </template>
 
       <template v-else>
@@ -141,31 +148,38 @@ function confirmDelete() {
 .app-header__back-title {
   font-size: 16px;
   font-weight: 600;
-  line-height: 24px;
+  line-height: 20px;
   color: $text-main;
 }
 
 .app-header__history {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
   margin-left: auto;
 
-  &:after {
-    content: '';
-    position: absolute;
-    right: -12px;
-    width: 1px;
-    height: 24px;
-    background: $stroke;
+  @include tab {
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      width: 1px;
+      height: 24px;
+      background: $stroke;
+    }
   }
 }
 
 .app-header__actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  display: none;
+
+  @include tab {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
 }
 
 .app-header__emoji {

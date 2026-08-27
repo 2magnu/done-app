@@ -67,19 +67,17 @@ onUnmounted(() => {
 }
 
 .base-modal__content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(100%, 440px);
+  width: min(100% - 24px, 440px);
   overflow-y: auto;
-  padding: 24px;
+  padding: 20px;
   border-radius: 16px;
   border: 1px solid $stroke;
   background-color: $white;
   box-shadow:
-    0 24px 64px -8px $black-a18,
+    0 24px 64px -8px $black-a20,
     0 8px 24px -4px $black-a08;
+
+  @include centeringAbsolute(true, true);
 }
 
 .base-modal__title {
@@ -87,6 +85,7 @@ onUnmounted(() => {
   font-weight: 600;
   line-height: 24px;
   color: $text-main;
+  margin-bottom: 4px;
 }
 
 .base-modal__message {

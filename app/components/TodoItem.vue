@@ -41,15 +41,15 @@ function toggleTodo(event: Event) {
       <span class="fake-checkbox__box" />
     </label>
 
-    <input
-      type="text"
-      placeholder="Введите текст задачи..."
+    <textarea
       :value="todo.text"
+      placeholder="Введите текст задачи..."
+      name="title"
+      rows="1"
       class="todo-item__input"
       @input="updateText"
       @focus="emit('start-text-edit', todo.id)"
       @blur="emit('finish-text-edit', todo.id)"
-
     />
 
     <BaseButton compact icon-name="delete" class="todo-item__delete" @click="deleteTodo" />
@@ -72,6 +72,8 @@ function toggleTodo(event: Event) {
 
 .todo-item__input {
   width: 100%;
+  field-sizing: content;
+  resize: none;
   padding: 4px 8px;
   outline: none;
   border: none;

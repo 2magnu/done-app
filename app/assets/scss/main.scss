@@ -25,7 +25,10 @@ body {
 }
 
 .container {
-  width: min(100% - 40px, $desktop);
+  width: min(100% - 24px, $desktop);
   margin-inline: auto;
-  padding-inline: 20px;
+
+  @include desk() {
+    width: min(100% - 40px, $desktop);
+  }
 }

@@ -170,9 +170,10 @@ const progress = computed(() => {
   <div class="edit-note">
     <section class="edit-note__section">
       <label class="edit-note__title">
-        <input
+        <textarea
           v-model="draft.title"
-          type="text"
+          name="message"
+          rows="1"
           placeholder="Заголовок"
           class="edit-note__title-input"
           @focus="startTitleEdit"
@@ -207,6 +208,8 @@ const progress = computed(() => {
 
       <BaseButton compact icon-name="add" @click="addTodo">Добавить задачу</BaseButton>
     </section>
+
+    <div id="mobile-actions" />
   </div>
 </template>
 
@@ -219,7 +222,9 @@ const progress = computed(() => {
 
 .edit-note__title-input {
   width: min(100%, 680px);
-  height: 48px;
+  min-height: 48px;
+  field-sizing: content;
+  resize: none;
   outline: none;
   border: none;
   border-bottom: 2px solid $violet;
@@ -261,6 +266,24 @@ const progress = computed(() => {
     width: 100%;
     height: 3px;
     background-color: $btn-hover-bg;
+  }
+}
+
+#mobile-actions {
+  display: none;
+
+  @include mob-only {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    gap: 4px;
+    padding: 12px;
+    background-color: $white;
+    box-shadow:
+      0 4px 8px 0 #{$black-a20},
+      0 6px 20px 0 #{$black-a20};
   }
 }
 </style>

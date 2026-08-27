@@ -25,8 +25,11 @@ const isNotePage = computed(() => {
 </template>
 
 <style scoped lang="scss">
-
 .main {
-  padding-block: 40px;
+  padding-block: 24px;
+
+  @include desk() {
+    padding-block: 40px;
+  }
 }
 </style>

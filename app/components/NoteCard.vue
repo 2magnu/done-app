@@ -22,9 +22,12 @@ const completeAllTasks = computed(() => {
 <template>
   <article class="note-card">
     <div class="note-card__header">
-      <h3 class="note-card__title">{{ props.note.title }}</h3>
-
-      <span v-if="completeAllTasks" class="note-card__badge">Done</span>
+      <div class="note-card__info">
+        <h3 class="note-card__title">
+          {{ props.note.title || 'Без заголовка' }}
+        </h3>
+        <span v-if="completeAllTasks" class="note-card__badge">Done</span>
+      </div>
 
       <span class="note-card__caption">{{ new Date().toLocaleDateString() }}</span>
     </div>
@@ -45,9 +48,7 @@ const completeAllTasks = computed(() => {
         Редактировать
       </BaseButton>
 
-      <BaseButton compact icon-name="delete" @click="showDeleteModal = true">
-        Удалить
-      </BaseButton>
+      <BaseButton compact icon-name="delete" @click="showDeleteModal = true"> Удалить </BaseButton>
     </div>
   </article>
 
@@ -66,6 +67,7 @@ const completeAllTasks = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
   height: 100%;
   border-radius: $rounded-2xl;
   border: 1px solid $stroke;
@@ -81,6 +83,13 @@ const completeAllTasks = computed(() => {
       0 8px 24px -4px rgba(124, 58, 237, 0.12),
       0 2px 8px rgba(124, 58, 237, 0.06);
   }
+}
+
+.note-card__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .note-card__title {
@@ -122,6 +131,7 @@ const completeAllTasks = computed(() => {
 
   &:before {
     content: '';
+    flex-shrink: 0;
     width: 16px;
     height: 16px;
     border-radius: 4px;
@@ -155,13 +165,18 @@ const completeAllTasks = computed(() => {
 .note-card__footer {
   gap: 8px;
   margin-top: auto;
-  opacity: 0;
 
   @include flex-center();
   @include transition();
 
+  @include desk {
+    opacity: 0;
+  }
+
   .note-card:hover & {
-    opacity: 1;
+    @include desk {
+      opacity: 1;
+    }
   }
 }
 </style>

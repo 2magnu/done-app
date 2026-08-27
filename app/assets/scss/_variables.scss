@@ -2,9 +2,9 @@ $font-family-main: 'Inter', sans-serif;
 
 // Breakpoints
 $mobile: 320px;
-$tablet: 712px;
-$desktop: 1280px;
-$wide: 1580px;
+$tablet: 640px;
+$desktop: 1140px;
+$wide: 1440px;
 $ultrawide: 1920px;
 
 // Base Colors
@@ -33,7 +33,7 @@ $warning: $orange;
 // Alpha
 $black-a04: rgba(0, 0, 0, 0.04);
 $black-a08: rgba(0, 0, 0, 0.08);
-$black-a18: rgba(0, 0, 0, 0.18);
+$black-a20: rgba(0, 0, 0, 0.20);
 $gray-a-48: rgba(13, 13, 18, 0.48);
 
 // Gradients

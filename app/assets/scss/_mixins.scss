@@ -1,5 +1,41 @@
 @use './variables' as *;
 
+@mixin mob {
+  @media (min-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin tab {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin mob-only {
+  @media (max-width: $tablet - 1px) {
+    @content;
+  }
+}
+
+@mixin mob-tab-only {
+  @media (min-width: $mobile) and (max-width: $tablet - 1px) {
+    @content;
+  }
+}
+
+@mixin desk {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin desk-lg {
+  @media (min-width: $ultrawide) {
+    @content;
+  }
+}
+
 @mixin centeringAbsolute($x, $y) {
   position: absolute;
 
