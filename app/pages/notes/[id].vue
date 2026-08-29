@@ -4,7 +4,8 @@ import type { Todo } from '~/types/note'
 import type { HistoryAction } from '~/types/historyAction.ts'
 const route = useRoute()
 const notesStore = useNotesStore()
-const { handleKeydown } = useNoteEditor()
+
+const { draft, applyAction, saveHistoryAction, handleKeydown } = useNoteEditor()
 
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown)
@@ -14,21 +15,21 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)
 })
 
-const { draft, applyAction, saveHistoryAction } = useNoteEditor()
-
 if (route.params.id !== 'new') {
   const note = computed(() => {
     return notesStore.getNoteByID(String(route.params.id))
   })
 
-  if (!note.value) {
+  const noteValue = note.value
+
+  if (!noteValue) {
     throw createError({
       status: 404,
       statusText: 'Заметка не найдена',
     })
   }
 
-  draft.value = structuredClone(toRaw(note.value))
+  draft.value = structuredClone(toRaw(noteValue))
 }
 
 let previousTitle = ''

@@ -2,7 +2,7 @@
 import { pluralizeNotes } from '~/utils/pluralizeNotes.ts'
 
 const notesStore = useNotesStore()
-const { undo, redo, canUndo, canRedo, saveNote, deleteNote, cancelEdit } = useNoteEditor()
+const { saveNote, deleteNote, cancelEdit, undo, redo, canUndo, canRedo } = useNoteEditor()
 
 defineProps<{
   isNotePage: boolean
